@@ -7,15 +7,22 @@ import { InputForm as _InputForm } from './InputForm'
 
 export function Column({
   title,
-  cards,
+  filterValue: rawFilterValue,
+  cards: rawCards,
 }: {
   title?: string
+  filterValue?: string
   cards: {
     id: string
     text?: string
   }[]
 }) {
-  const totalCount = cards.length
+  const filterValue = rawFilterValue?.trim()
+  const keywords = filterValue?.toLowerCase().split(/\s+/g) ?? []
+  const cards = rawCards.filter(({ text }) =>
+    keywords?.every(w => text?.toLowerCase().includes(w)),
+  )
+  const totalCount = rawCards.length
 
   const [text, setText] = useState('')
 
@@ -104,13 +111,19 @@ const InputForm = styled(_InputForm)`
    padding: 8px;
  `
 
-const VerticalScroll = styled.div`
-  height: 100%;
-  padding: 8px;
-  overflow-y: auto;
-  flex: 1 1 auto;
+const ResultCount = styled.div`
+ color:${color.Black};
+ font-size:12px;
+ text-align:center;
+ `
 
-  > :not(:first-child) {
-    margin-top: 8px;
-  }
+const VerticalScroll = styled.div`
+height: 100 %;
+padding: 8px;
+overflow - y: auto;
+flex: 1 1 auto;
+
+  > : not(: first - child) {
+  margin - top: 8px;
+}
 `
