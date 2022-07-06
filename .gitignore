@@ -7,3 +7,5 @@ node_modules/
 
 #ts
 /.ts-cache/
+
+.env
